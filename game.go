@@ -56,7 +56,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (width, height int) {
-	return g.cfg.ScreenWidth, g.cfg.ScreenHeight
+	return g.cfg.ScreenWidth + outsideWidth, g.cfg.ScreenHeight + outsideHeight
 }
 
 func (g *Game) AddBullet(bullet *Bullet) {
