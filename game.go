@@ -22,6 +22,7 @@ func (g *Game) Update() error {
 		}
 	}
 	for alien := range g.aliens {
+		// 移动外星人
 		alien.Y += alien.SpeedFactor
 		if alien.X <= 0 {
 			alien.LeftMove = false
