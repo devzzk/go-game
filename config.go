@@ -8,17 +8,18 @@ import (
 )
 
 type Config struct {
-	ScreenWidth       int        `json:"screenWidth"`
-	ScreenHeight      int        `json:"screenHeight"`
-	Title             string     `json:"title"`
-	BgColor           color.RGBA `json:"bgColor"`
-	ShipSpeedFactor   float64    `json:"shipSpeedFactor"`
-	BulletWidth       int        `json:"bulletWidth"`
-	BulletHeight      int        `json:"bulletHeight"`
-	BulletSpeedFactor float64    `json:"bulletSpeedFactor"`
-	BulletColor       color.RGBA `json:"bulletColor"`
-	BulletInterval    int64      `json:"bulletInterval"`
-	AlienSpeedFactor  float64    `json:"alienSpeedFactor"`
+	ScreenWidth         int        `json:"screenWidth"`
+	ScreenHeight        int        `json:"screenHeight"`
+	Title               string     `json:"title"`
+	BgColor             color.RGBA `json:"bgColor"`
+	ShipSpeedFactor     float64    `json:"shipSpeedFactor"`
+	BulletWidth         int        `json:"bulletWidth"`
+	BulletHeight        int        `json:"bulletHeight"`
+	BulletSpeedFactor   float64    `json:"bulletSpeedFactor"`
+	BulletColor         color.RGBA `json:"bulletColor"`
+	BulletInterval      int64      `json:"bulletInterval"`
+	CreateAllenInterval int64      `json:"createAllenInterval"`
+	AlienSpeedFactor    float64    `json:"alienSpeedFactor"`
 }
 
 func LoadConfig() *Config {

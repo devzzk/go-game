@@ -20,5 +20,6 @@
         "a": 255
     },
     "bulletInterval": 50,
-    "alienSpeedFactor": 2
+    "alienSpeedFactor": 2,
+    "createAllenInterval": 500
 }

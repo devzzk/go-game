@@ -31,13 +31,13 @@ func NewShip(screenWidth, screenHeight int) *Ship {
 		log.Fatal(err)
 	}
 
-	width, height := img.Size()
+	s := img.Bounds().Size()
 	ship := &Ship{
 		Image:  img,
-		Width:  width,
-		Height: height,
-		X:      float64(screenWidth-width) / 2,
-		Y:      float64(screenHeight - height),
+		Width:  s.X,
+		Height: s.Y,
+		X:      float64(screenWidth-s.X) / 2,
+		Y:      float64(screenHeight - s.Y),
 	}
 	return ship
 

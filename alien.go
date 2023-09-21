@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -14,6 +15,8 @@ type Alien struct {
 	X           float64
 	Y           float64
 	SpeedFactor float64
+	LeftMove    bool
+	HitNumber   int
 }
 
 func (this Alien) Draw(screen *ebiten.Image) {
@@ -28,13 +31,15 @@ func NewAlien(cfg *Config) *Alien {
 		log.Fatal(err)
 	}
 
-	width, height := img.Size()
+	s := img.Bounds().Size()
 	return &Alien{
 		Image:       img,
-		Width:       width,
-		Height:      height,
+		Width:       s.X,
+		Height:      s.Y,
 		X:           0,
 		Y:           0,
 		SpeedFactor: cfg.AlienSpeedFactor,
+		LeftMove:    rand.Intn(100) > 50,
+		HitNumber:   rand.Intn(3),
 	}
 }

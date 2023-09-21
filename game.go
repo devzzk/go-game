@@ -2,10 +2,11 @@ package main
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"math/rand"
 )
 
 type Game struct {
-	input   *Input
+	Input   *Input
 	ship    *Ship
 	cfg     *Config
 	bullets map[*Bullet]struct{}
@@ -13,7 +14,7 @@ type Game struct {
 }
 
 func (g *Game) Update() error {
-	g.input.Update(g)
+	g.Input.Update(g)
 	for bullet := range g.bullets {
 		bullet.Y -= bullet.SpeedFactor
 		if bullet.OutOfScreen() {
@@ -22,6 +23,18 @@ func (g *Game) Update() error {
 	}
 	for alien := range g.aliens {
 		alien.Y += alien.SpeedFactor
+		if alien.X <= 0 {
+			alien.LeftMove = false
+		}
+		if alien.X >= float64(g.cfg.ScreenWidth-alien.Width) {
+			alien.LeftMove = true
+		}
+
+		if alien.LeftMove {
+			alien.X -= alien.SpeedFactor
+		} else {
+			alien.X += alien.SpeedFactor
+		}
 	}
 
 	g.CheckCollision()
@@ -46,7 +59,9 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (width, height int) {
 }
 
 func (g *Game) AddBullet(bullet *Bullet) {
-	g.bullets[bullet] = struct{}{}
+	if len(g.bullets) <= 10 {
+		g.bullets[bullet] = struct{}{}
+	}
 }
 
 func (g *Game) AddAlien(alien *Alien) {
@@ -56,24 +71,20 @@ func (g *Game) AddAlien(alien *Alien) {
 func (g *Game) CreateAliens() {
 	alien := NewAlien(g.cfg)
 
-	availableSpaceX := g.cfg.ScreenWidth - 2*alien.Width
-	numAliens := availableSpaceX / (2 * alien.Width)
-
-	for row := 0; row < 2; row++ {
-		for i := 0; i < numAliens; i++ {
-			alien = NewAlien(g.cfg)
-			alien.X = float64(alien.Width + 2*alien.Width*i)
-			alien.Y = float64(alien.Height*row) * 1.5
-			g.AddAlien(alien)
-		}
-	}
+	alien = NewAlien(g.cfg)
+	alien.X = float64(rand.Intn(g.cfg.ScreenWidth - alien.Width))
+	alien.Y = 0
+	g.AddAlien(alien)
 }
 
 func (g Game) CheckCollision() {
 	for alien := range g.aliens {
 		for bullet := range g.bullets {
 			if CheckCollision(bullet, alien) {
-				delete(g.aliens, alien)
+				alien.HitNumber -= 1
+				if alien.HitNumber <= 0 {
+					delete(g.aliens, alien)
+				}
 				delete(g.bullets, bullet)
 			}
 		}
@@ -114,7 +125,7 @@ func NewGame() *Game {
 	ebiten.SetWindowSize(cfg.ScreenWidth, cfg.ScreenHeight)
 	ebiten.SetWindowTitle(cfg.Title)
 	g := &Game{
-		input: &Input{
+		Input: &Input{
 			msg: "Hello world",
 		},
 		ship:    NewShip(cfg.ScreenWidth, cfg.ScreenHeight),
@@ -122,6 +133,5 @@ func NewGame() *Game {
 		bullets: make(map[*Bullet]struct{}),
 		aliens:  make(map[*Alien]struct{}),
 	}
-	g.CreateAliens()
 	return g
 }
