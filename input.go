@@ -25,6 +25,15 @@ func (this *Input) Update(g *Game) {
 
 		this.msg = "right pressed"
 	}
+	if ebiten.IsKeyPressed(ebiten.KeyUp) {
+		if g.ship.X > -float64(g.ship.Height)/2 {
+			g.ship.Y -= g.cfg.ShipSpeedFactor
+		}
+	} else if ebiten.IsKeyPressed(ebiten.KeyDown) {
+		if g.ship.Y < float64(g.cfg.ScreenHeight)-float64(g.ship.Height)/2 {
+			g.ship.Y += g.cfg.ShipSpeedFactor
+		}
+	}
 
 	if time.Now().Sub(this.lastCreateAllenTime).Milliseconds() > g.cfg.CreateAllenInterval {
 		g.CreateAliens()

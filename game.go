@@ -56,13 +56,13 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (width, height int) {
-	return g.cfg.ScreenWidth + outsideWidth, g.cfg.ScreenHeight + outsideHeight
+	return g.cfg.ScreenWidth, g.cfg.ScreenHeight
 }
 
 func (g *Game) AddBullet(bullet *Bullet) {
-	if len(g.bullets) <= 10 {
-		g.bullets[bullet] = struct{}{}
-	}
+	//if len(g.bullets) <= 10 {
+	g.bullets[bullet] = struct{}{}
+	//}
 }
 
 func (g *Game) AddAlien(alien *Alien) {
