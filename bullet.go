@@ -34,7 +34,7 @@ func NewBullet(cfg *Config, ship *Ship) *Bullet {
 		Width:       cfg.BulletWidth,
 		Height:      cfg.BulletHeight,
 		X:           ship.X + float64(ship.Width-cfg.BulletWidth)/2,
-		Y:           float64(cfg.ScreenHeight - ship.Height - cfg.BulletHeight),
+		Y:           ship.Y,
 		SpeedFactor: cfg.BulletSpeedFactor,
 	}
 }
